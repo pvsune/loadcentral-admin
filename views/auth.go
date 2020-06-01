@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-type AuthController struct{}
+type Auth struct{}
 
-func (ac AuthController) Login(c *gin.Context) {
+func (auth Auth) Login(c *gin.Context) {
 	c.HTML(http.StatusOK, "login.tmpl", nil)
 }
