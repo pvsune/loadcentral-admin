@@ -8,6 +8,7 @@ import (
 	"github.com/pvsune/loadcentral-admin/config"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -28,6 +29,9 @@ func (admin Admin) SendLoad(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{"error": err.Error()})
 		return
 	}
+	for i, phone_number := range form.PhoneNumber {
+		doSendLoad(phone_number, form.Pcode[i])
+	}
 	c.HTML(http.StatusOK, "index.tmpl", nil)
 }
 
@@ -40,6 +44,7 @@ func md5Hex(data []string) string {
 }
 
 func doSendLoad(phone_number string, pcode string) {
+	log.Printf("Sending load \"%s\" to \"%s\"", pcode, phone_number)
 	conf := config.GetConfig()
 
 	rrn := uuid.New().String()
@@ -50,11 +55,12 @@ func doSendLoad(phone_number string, pcode string) {
 		}),
 	})
 	requestURL := fmt.Sprintf(
-		"%s/?uid=%s&auth=%s&rrn=%s&pcode=%s&to=%s",
+		"%s?uid=%s&auth=%s&rrn=%s&pcode=%s&to=%s",
 		conf.GetString("LC_BASEURL"),
 		conf.GetString("LC_USERNAME"),
 		auth, rrn, pcode, phone_number,
 	)
+	log.Printf("Trying %s...", requestURL)
 
 	resp, err := http.Get(requestURL)
 	if err != nil {
