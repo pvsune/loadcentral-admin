@@ -1,2 +1,26 @@
 <h1>Hello, Loadcentral Admin!</h1>
 <a href="/logout">Logout</a>
+
+<form method="POST" id="loadcentral_form">
+    <label for="phone_number">Phone number: </label>
+    <input type="text" name="phone_number[]">
+    <label for="pcode">Pcode: </label>
+    <select name="pcode[]">
+        <option value="GMX100">Globe 100</option>
+        <option value="SM100">Smart 100</option>
+    </select>
+    <br>
+
+    <label for="phone_number">Phone number: </label>
+    <input type="text" name="phone_number[]">
+    <label for="pcode">Pcode: </label>
+    <select name="pcode[]">
+        <option value="GMX100">Globe 100</option>
+        <option value="SM100">Smart 100</option>
+    </select>
+    <br>
+
+    <input type="submit">
+</form>
+
+<p>{{ .error }}</p>

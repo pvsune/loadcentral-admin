@@ -23,6 +23,7 @@ func main() {
 
 	authorized := r.Group("/", authMiddleware.MiddlewareFunc())
 	authorized.GET("/", adminView.Index)
+	authorized.POST("/", adminView.SendLoad)
 
 	r.Run(":8000")
 }
