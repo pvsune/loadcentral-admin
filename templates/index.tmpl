@@ -2,25 +2,38 @@
 <a href="/logout">Logout</a>
 
 <form method="POST" id="loadcentral_form">
-    <label for="phone_number">Phone number: </label>
-    <input type="text" name="phone_number[]">
-    <label for="pcode">Pcode: </label>
-    <select name="pcode[]">
-        <option value="GMX100">Globe 100</option>
-        <option value="SM100">Smart 100</option>
-    </select>
-    <br>
+    <div id="loadcentral_form_fields">
+        <div id="loadcentral_form_clone">
+            <label for="phone_number">Phone number: </label>
+            <input type="text" name="phone_number[]">
+            <label for="pcode">Pcode: </label>
+            <select name="pcode[]">
+                <option value=""></option>
+                <option value="GMX100">Globe 100</option>
+                <option value="SM100">Smart 100</option>
+            </select>
+            <br>
+        </div>
+    </div>
 
-    <label for="phone_number">Phone number: </label>
-    <input type="text" name="phone_number[]">
-    <label for="pcode">Pcode: </label>
-    <select name="pcode[]">
-        <option value="GMX100">Globe 100</option>
-        <option value="SM100">Smart 100</option>
-    </select>
+    <a href="#" onclick="add_item(); return false;">Add item</a>
     <br>
 
     <input type="submit">
 </form>
 
 <p>{{ .error }}</p>
+
+<script>
+    function add_item() {
+        var elem = document.getElementById('loadcentral_form_clone');
+        var clone = elem.cloneNode(true);
+        clone.removeAttribute("id");
+        document.getElementById('loadcentral_form_fields').appendChild(clone);
+
+        // Reset added item.
+        var form = document.getElementById('loadcentral_form');
+        var input_phone_number = form.elements['phone_number[]'];
+        input_phone_number[input_phone_number.length-1].value = '';
+    }
+</script>
