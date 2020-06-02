@@ -65,13 +65,13 @@ func authenticator(c *gin.Context) (interface{}, error) {
 }
 
 func loginResponse(c *gin.Context, code int, token string, expire time.Time) {
-	c.Redirect(http.StatusMovedPermanently, "/")
+	c.Redirect(http.StatusFound, "/")
 }
 
 func logoutResponse(c *gin.Context, code int) {
-	c.Redirect(http.StatusMovedPermanently, "/login")
+	c.Redirect(http.StatusFound, "/login")
 }
 
 func unauthorized(c *gin.Context, code int, message string) {
-	c.Redirect(http.StatusMovedPermanently, "/login")
+	c.Redirect(http.StatusFound, "/login")
 }
