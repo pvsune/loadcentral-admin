@@ -2,6 +2,7 @@ package views
 
 import (
 	"crypto/md5"
+	"encoding/xml"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -12,6 +13,12 @@ import (
 	"net/http"
 )
 
+type LoadCentralResponse struct {
+	Resp string `xml:"RESP"`
+	TID  string `xml:"TID"`
+	Bal  string `xml:"BAL"`
+	Err  string `xml:"ERR"`
+}
 type Admin struct{}
 
 func (admin Admin) Index(c *gin.Context) {
@@ -43,10 +50,9 @@ func md5Hex(data []string) string {
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
-func doSendLoad(phone_number string, pcode string) {
+func doSendLoad(phone_number string, pcode string) *LoadCentralResponse {
 	log.Printf("Sending load \"%s\" to \"%s\"", pcode, phone_number)
 	conf := config.GetConfig()
-
 	rrn := uuid.New().String()
 	auth := md5Hex([]string{
 		md5Hex([]string{rrn}),
@@ -60,8 +66,8 @@ func doSendLoad(phone_number string, pcode string) {
 		conf.GetString("LC_USERNAME"),
 		auth, rrn, pcode, phone_number,
 	)
-	log.Printf("Trying %s...", requestURL)
 
+	log.Printf("Trying %s...", requestURL)
 	resp, err := http.Get(requestURL)
 	if err != nil {
 		panic(fmt.Sprintf("LoadCentral Error: %s", err))
@@ -71,5 +77,11 @@ func doSendLoad(phone_number string, pcode string) {
 	if err != nil {
 		panic(fmt.Sprintf("LoadCentral Error: %s", err))
 	}
-	fmt.Printf("%s", body)
+
+	var res LoadCentralResponse
+	err = xml.Unmarshal([]byte(fmt.Sprintf("<root>%s</root>", body)), &res)
+	if err != nil {
+		panic(fmt.Sprintf("LoadCentral Error: %s", err))
+	}
+	return &res
 }
