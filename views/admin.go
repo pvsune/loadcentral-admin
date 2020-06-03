@@ -20,6 +20,7 @@ type LoadCentralResponse struct {
 	TID         string `xml:"TID"`
 	Bal         string `xml:"BAL"`
 	Err         string `xml:"ERR"`
+	RRN         string `xml:"RRN"`
 }
 type Admin struct{}
 
@@ -45,12 +46,11 @@ func (admin Admin) SendLoad(c *gin.Context) {
 		go doSendLoad(phone_number, form.Pcode[i], ch)
 	}
 
-	var res []string
+	var res []*LoadCentralResponse
 	for range form.PhoneNumber {
-		c := <-ch
-		res = append(res, fmt.Sprintf("%+v", c))
+		res = append(res, <-ch)
 	}
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{"error": res})
+	c.HTML(http.StatusOK, "index.tmpl", gin.H{"result": res})
 }
 
 func md5Hex(data []string) string {
@@ -62,6 +62,15 @@ func md5Hex(data []string) string {
 }
 
 func doSendLoad(phone_number string, pcode string, ch chan *LoadCentralResponse) {
+	res := LoadCentralResponse{PhoneNumber: phone_number, Pcode: pcode}
+	defer func() {
+		if r := recover(); r != nil {
+			res.Err = "Recovered from panic."
+			log.Printf("Recovered from %s", r)
+		}
+		ch <- &res
+	}()
+
 	log.Printf("Sending load \"%s\" to \"%s\"", pcode, phone_number)
 	conf := config.GetConfig()
 	rrn := uuid.New().String()
@@ -88,11 +97,10 @@ func doSendLoad(phone_number string, pcode string, ch chan *LoadCentralResponse)
 	if err != nil {
 		panic(fmt.Sprintf("LoadCentral Error: %s", err))
 	}
+	log.Printf("LoadCentral response: %s", string(body))
 
-	res := LoadCentralResponse{PhoneNumber: phone_number, Pcode: pcode}
 	err = xml.Unmarshal([]byte(fmt.Sprintf("<root>%s</root>", body)), &res)
 	if err != nil {
 		panic(fmt.Sprintf("LoadCentral Error: %s", err))
 	}
-	ch <- &res
 }

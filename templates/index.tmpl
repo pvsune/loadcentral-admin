@@ -91,7 +91,19 @@
             </div>
           </div>
 
-          <hr>
+          <div class="field is-horizontal">
+            <div class="field-label">
+              <!-- Left empty for spacing -->
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <span class="is-size-7 is-italic">REMINDER: Double-check request before submitting.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="field is-horizontal">
             <div class="field-label">
               <!-- Left empty for spacing -->
@@ -118,8 +130,29 @@
         <div class="columns is-mobile">
         <div class="column is-half">
     <div class="content">
-            <h4>Result:</h4>
+          {{ if .error }}
+            <h4>Error:</h4>
             <p>{{ .error }}</p>
+          {{ end }}
+          {{ if .result }}
+            <h4>Result:</h4>
+            {{ range $r := .result }}
+            {{ if eq $r.Err "0"}}
+            <p class="has-text-success">
+              <i class="fas fa-check-circle"></i>
+              {{ $r.Pcode }} load successfully sent to "{{ $r.PhoneNumber }}"
+              <br><span class="is-size-7 is-italic">Bal: {{ $r.Bal }} RRN: {{ $r.RRN }}</span>
+            </p>
+            {{ else }}
+            <p class="has-text-danger">
+              <i class="fas fa-times-circle"></i>
+              Failed sending {{ $r.Pcode }} load to "{{ $r.PhoneNumber }}":
+              <span class="has-text-weight-bold">{{ $r.Err }}</span>
+              <br><span class="is-size-7 is-italic">Bal: {{ $r.Bal }} RRN: {{ $r.RRN }}</span>
+            </p>
+            {{ end }}
+            {{ end }}
+          {{ end }}
         </div>
     </div>
     </div>
