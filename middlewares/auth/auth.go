@@ -58,7 +58,9 @@ func authenticator(c *gin.Context) (interface{}, error) {
 		return nil, jwt.ErrMissingLoginValues
 	}
 
-	if !(data.Username == "admin" && data.Password == "icanseeyou") {
+	conf := config.GetConfig()
+	username, password := conf.GetString("AUTH_USERNAME"), conf.GetString("AUTH_PASSWORD")
+	if !(data.Username == username && data.Password == password) {
 		return nil, jwt.ErrFailedAuthentication
 	}
 	return nil, nil

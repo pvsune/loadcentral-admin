@@ -62,8 +62,10 @@
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select name="pcode[]">
-                        <option value="GMX100">Globe 100</option>
-                        <option value="SM100">Smart 100</option>
+                        <option value="GMX100">GLOBE 100</option>
+                        <option value="SM100">SMART 100</option>
+                        <option value="TMX100">TOUCH MOBILE 100</option>
+                        <option value="SNX100">SUN 100</option>
                     </select>
                   </div>
                 </div>
@@ -137,7 +139,7 @@
           {{ if .result }}
             <h4>Result:</h4>
             {{ range $r := .result }}
-            {{ if eq $r.Err "0"}}
+            {{ if eq $r.Resp "0"}}
             <p class="has-text-success">
               <i class="fas fa-check-circle"></i>
               {{ $r.Pcode }} load successfully sent to "{{ $r.PhoneNumber }}"
