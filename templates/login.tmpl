@@ -8,12 +8,26 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <span class="navbar-item has-text-weight-bold is-uppercase">
+        LoadCentral Admin
+    </span>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
   <section class="section">
     <div class="container">
         <div class="columns is-mobile">
         <div class="column is-one-third is-offset-one-third">
+        <h1 class="title">Login</h1>
         <form method="POST" action="/login">
-        <h1 class="title">LoadCentral Admin</h1>
         <div class="field">
           <p class="control has-icons-left has-icons-right">
             <input class="input" type="text" placeholder="Username" name="username">
@@ -33,7 +47,7 @@
         <div class="field">
           <p class="control">
             <button class="button is-success">
-              Login
+              Submit
             </button>
           </p>
         </div>

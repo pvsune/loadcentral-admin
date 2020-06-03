@@ -1,39 +1,147 @@
-<h1>Hello, Loadcentral Admin!</h1>
-<a href="/logout">Logout</a>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LoadCentral Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <span class="navbar-item has-text-weight-bold is-uppercase">
+        LoadCentral Admin
+    </span>
 
-<form method="POST" id="loadcentral_form">
-    <div id="loadcentral_form_fields">
-        <div id="loadcentral_form_clone">
-            <label for="phone_number">Phone number: </label>
-            <input type="text" name="phone_number[]">
-            <label for="pcode">Pcode: </label>
-            <select name="pcode[]">
-                <option value=""></option>
-                <option value="GMX100">Globe 100</option>
-                <option value="SM100">Smart 100</option>
-            </select>
-            <br>
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a href="/logout" class="button is-danger is-pulled-right is-small">
+              <span class="icon is-small">
+                <i class="fas fa-sign-out-alt"></i>
+              </span>
+              <span>Logout</span>
+            </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+  <section class="section">
+    <div class="container">
+        <div class="columns is-mobile">
+        <div class="column is-half">
+        <p class="title">Welcome!</p>
+        <p class="subtitle">You can send mobile load using the form below:</p>
+        <hr>
+        <form method="POST" id="loadcentral_form">
+          <div id="loadcentral_form_fields">
+          <div class="field is-horizontal" id="loadcentral_form_clone">
+            <div class="field-label is-normal">
+              <label class="label">Recipient</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input class="input" type="text" placeholder="Mobile number" name="phone_number[]">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-mobile"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field is-narrow">
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select name="pcode[]">
+                        <option value="GMX100">Globe 100</option>
+                        <option value="SM100">Smart 100</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <br>
+          <div class="field is-horizontal">
+            <div class="field-label">
+              <!-- Left empty for spacing -->
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <a class="button is-info is-small" id="add_item" href="#">
+                      <span class="icon is-small">
+                        <i class="fas fa-plus"></i>
+                      </span>
+                      <span>Add recipient</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+          <div class="field is-horizontal">
+            <div class="field-label">
+              <!-- Left empty for spacing -->
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-success is-medium">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        </div>
         </div>
     </div>
+  </section>
 
-    <a href="#" onclick="add_item(); return false;">Add item</a>
-    <br>
+  <section>
+    <div class="container">
+        <div class="columns is-mobile">
+        <div class="column is-half">
+    <div class="content">
+            <h4>Result:</h4>
+            <p>{{ .error }}</p>
+        </div>
+    </div>
+    </div>
+    </div>
+  </section>
 
-    <input type="submit">
-</form>
+  <script>
+  window.onload = function() {
+      function add_item(e) {
+          var elem = document.getElementById('loadcentral_form_clone');
+          var clone = elem.cloneNode(true);
+          clone.removeAttribute("id");
+          document.getElementById('loadcentral_form_fields').appendChild(clone);
 
-<p>{{ .error }}</p>
-
-<script>
-    function add_item() {
-        var elem = document.getElementById('loadcentral_form_clone');
-        var clone = elem.cloneNode(true);
-        clone.removeAttribute("id");
-        document.getElementById('loadcentral_form_fields').appendChild(clone);
-
-        // Reset added item.
-        var form = document.getElementById('loadcentral_form');
-        var input_phone_number = form.elements['phone_number[]'];
-        input_phone_number[input_phone_number.length-1].value = '';
+          // Reset added item.
+          var form = document.getElementById('loadcentral_form');
+          var input_phone_number = form.elements['phone_number[]'];
+          input_phone_number[input_phone_number.length-1].value = '';
+          e.preventDefault();
     }
-</script>
+    document.getElementById("add_item").addEventListener("click", add_item, false);
+  }
+  </script>
+  </body>
+</html>
