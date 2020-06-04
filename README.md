@@ -27,7 +27,7 @@ $ go run main.go
 
 ## How it works
 ### Authentication
-There's no need to use DB yet; the user credentials are set by environment variables. When the user logins, the app generates a JWT token and saved it to cookie. Cookie settings are set to avoid CSRF, XSS. The token will expire for one hour and the user needs to login again.
+There's no need to use DB yet; the user credentials are set by environment variables. When the user logins, the app generates a JWT token and save it to cookie. Cookie settings are set to avoid CSRF, XSS. The token will expire for one hour and the user needs to login again.
 
 ### Load topup
 Each `(PhoneNumber, Pcode)` is posted to LoadCentral API using its own Goroutine. The response is sent back to main program using channels and finally sent to templates for display (duhh!).
