@@ -12,6 +12,7 @@ $ docker build -t pvsune/loadcentral-admin .
   - `APP_AUTH_KEY` - JWT key used for signing the token.
   - `APP_AUTH_COOKIEDOMAIN` - Set to localhost for development.
   - `APP_LC_USERNAME` `APP_LC_PASSWORD` - LoadCentral credentials.
+  - `APP_AUTH_SECURECOOKIE` - Avoid XSS; Set to false for development.
   
 3. Start the app:
 ```
