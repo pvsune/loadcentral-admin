@@ -1,7 +1,6 @@
 {
     "AUTH_REALM": "Access to the site.",
     "AUTH_SENDCOOKIE": true,
-    "AUTH_SECURECOOKIE": false,
     "AUTH_COOKIEHTTPONLY": true,
     "AUTH_TIMEOUT": 3600,
     "AUTH_TOKENLOOKUP": "cookie:jwt",
