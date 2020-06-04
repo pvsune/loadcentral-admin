@@ -19,7 +19,7 @@ $ docker build -t pvsune/loadcentral-admin .
 $ docker run --rm --env-file .env -p 8000:8000 pvsune/loadcentral-admin
 ```
 
-4. Alternatively, you can run the app directly and export enironment variables.
+4. Alternatively, you can run the app directly and export environment variables.
 ```
 $ go get .
 $ go run main.go 
@@ -30,7 +30,7 @@ $ go run main.go
 There's no need to use DB yet; the user credentials are set by environment variables. When the user logins, the app generates a JWT token and save it to cookie. Cookie settings are set to avoid CSRF, XSS. The token will expire for one hour and the user needs to login again.
 
 ### Load topup
-Each `(PhoneNumber, Pcode)` is posted to LoadCentral API using its own Goroutine. The response is sent back to main program using channels and finally sent to templates for display (duhh!).
+Each `(PhoneNumber, Pcode)` is posted to LoadCentral API using its own Goroutine. The response is sent back to main program using channels and finally sent to templates for display (duhh).
 
 ## Notes
 1. Maybe good idea to setup proper CSRF token and not rely on `Set-Cookie: <cookie-name>=<cookie-value>; SameSite=Strict` response header.
