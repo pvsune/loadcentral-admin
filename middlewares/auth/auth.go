@@ -25,7 +25,7 @@ func Init() {
 		Key:            []byte(conf.GetString("AUTH_KEY")),
 		Timeout:        time.Duration(conf.GetInt("AUTH_TIMEOUT")) * time.Second,
 		SendCookie:     conf.GetBool("AUTH_SENDCOOKIE"),
-		SecureCookie:   conf.GetBool("AUTH_SECURECOOKIE"),
+		SecureCookie:   conf.GetBool("APP_AUTH_SECURECOOKIE"),
 		CookieHTTPOnly: conf.GetBool("AUTH_COOKIEHTTPONLY"),
 		CookieDomain:   conf.GetString("AUTH_COOKIEDOMAIN"),
 		TokenLookup:    conf.GetString("AUTH_TOKENLOOKUP"),
